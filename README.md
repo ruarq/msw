@@ -1,2 +1,2 @@
-# Template
-All premake5 binaries in `premake/` have the version `5.0.0-beta1`
+# Multi Socket Wrapper
+C++17 header-only wrapper around raw sockets and socket sets.
