@@ -13,9 +13,7 @@ class basic_buffer_view
 public:
 	using value_type = T;
 	using size_type = unsigned long;
-	using pointer = T *;
 	using const_pointer = const T *;
-	using reference = T &;
 	using const_reference = const T &;
 
 public:
@@ -49,7 +47,7 @@ public:
 	 */
 	basic_buffer_view(const_pointer begin, const_pointer end)
 		: m_data{ begin }
-		, m_size{ end - begin }
+		, m_size{ (size_type)(end - begin) }
 	{
 	}
 
@@ -100,6 +98,22 @@ private:
 	const const_pointer m_data;	   ///< Pointer to the data
 	const size_type m_size;		   ///< Size of the data
 };
+
+/**
+ * @brief Create a buffer_view with std iterators.
+ * Custom iterators work too, but they need a `const T *base()` method
+ * 
+ * @tparam T value_type for the buffer
+ * @tparam Iter The iterator type
+ * @param begin The beginning of the range
+ * @param end The end of the range
+ * @return basic_buffer_view<T> 
+ */
+template<typename T, typename Iter>
+basic_buffer_view<T> make_buffer_view(Iter begin, Iter end)
+{
+	return basic_buffer_view<T>{ begin.base(), end.base() };
+}
 
 using buffer_view = basic_buffer_view<char>;
 

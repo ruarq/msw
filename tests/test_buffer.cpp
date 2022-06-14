@@ -92,3 +92,18 @@ UTEST(buffer, clear)
 	ASSERT_TRUE(buf.empty());
 	ASSERT_EQ(buf.size(), 0ul);
 }
+
+UTEST(buffer, make_buffer)
+{
+	std::string s{ "std::string" };
+	auto buf = msw::make_buffer<char>(s.begin(), s.end());
+
+	std::string::iterator
+
+		ASSERT_EQ(s.size(), buf.size());
+
+	for (size_t i = 0; i < s.size(); ++i)
+	{
+		ASSERT_EQ(s[i], buf[i]);
+	}
+}

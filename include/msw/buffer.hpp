@@ -62,6 +62,18 @@ public:
 		memcpy(data, m_data, m_size);
 	}
 
+	/**
+	 * @brief Construct a buffer by copying the data
+	 * @param begin const_pointer to the beginning of the data
+	 * @param end const_pointer to the end of the data
+	 */
+	basic_buffer(const_pointer begin, const_pointer end)
+	{
+		m_size = (size_type)(end - begin);
+		m_data = new value_type[m_size];
+		memcpy(begin, m_data, m_size);
+	}
+
 	~basic_buffer()
 	{
 		clear();
@@ -221,6 +233,22 @@ private:
 	pointer m_data{};
 	size_t m_size{};
 };
+
+/**
+ * @brief Create a buffer with std iterators.
+ * Custom iterators work too, but they need a `const T *base()` method
+ * 
+ * @tparam T value_type for the buffer
+ * @tparam Iter The iterator type
+ * @param begin The beginning of the range
+ * @param end The end of the range
+ * @return basic_buffer<T> 
+ */
+template<typename T, typename Iter>
+basic_buffer<T> make_buffer(Iter begin, Iter end)
+{
+	return basic_buffer<T>{ begin.base(), end.base() };
+}
 
 using buffer = basic_buffer<char>;
 
